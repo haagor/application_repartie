@@ -1,31 +1,21 @@
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 //import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Server implements Hello {
-
-    public Server() {}
-
-    public String sayHello() {
-        System.out.println("un client est passé");
-        return "Hello, world!";
-    }
+public class Server {
 
     public static void main(String args[]) {
 
         try {
-            Server obj = new Server();
-            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
-
-            // Bind the remote object's stub in the registry
-            Registry registry = LocateRegistry.getRegistry();
-            registry.bind("Hello", stub);
-
-            System.err.println("Server ready");
-        } catch (Exception e) {
-            System.err.println("Server exception: " + e.toString());
+            Hello obj = new Hello();
+            Naming.rebind("rmi://localhost:1098/Hello", obj);
+            System.out.println("Server ready");
+        } catch (RemoteException | MalformedURLException e){
             e.printStackTrace();
         }
     }
