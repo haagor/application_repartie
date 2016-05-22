@@ -1,10 +1,7 @@
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Client extends UnicastRemoteObject {
@@ -25,8 +22,6 @@ public class Client extends UnicastRemoteObject {
 
             IRegistry myR = (IRegistry) Naming.lookup("rmi://localhost:1098/my_registry");
             IHello stub = (IHello) myR.lookup("Hello");
-
-            //IHello stub = (IHello) Naming.lookup("rmi://localhost:1098/my_registry");
             System.out.println(stub.sayHello());
 
 
