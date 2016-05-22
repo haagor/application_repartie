@@ -22,16 +22,13 @@ public class Client extends UnicastRemoteObject {
             if (System.getSecurityManager() == null) {
                 System.setSecurityManager(new SecurityManager());
             }
-            IHello stub = (IHello) Naming.lookup("rmi://localhost:1098/Hello");
+
+            IRegistry myR = (IRegistry) Naming.lookup("rmi://localhost:1098/my_registry");
+            IHello stub = (IHello) myR.lookup("Hello");
+
+            //IHello stub = (IHello) Naming.lookup("rmi://localhost:1098/my_registry");
             System.out.println(stub.sayHello());
 
-
-            /*TP 2 exo 3
-            IClientRMI clientRMI = new ClientRMI();
-            System.out.println(stub.getService());
-            System.out.println(stub.getService().getValue());
-            System.out.println(stub.getService().multiplyValueBy(2, clientRMI));
-            */
 
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.printStackTrace();
