@@ -21,8 +21,21 @@ public class Client extends UnicastRemoteObject {
             }
 
             IRegistry myR = (IRegistry) Naming.lookup("rmi://localhost:1098/my_registry");
-            IHello stub = (IHello) myR.lookup("Hello");
-            System.out.println(stub.sayHello());
+
+            //IHello stub = (IHello) myR.lookup("Hello");
+            //System.out.println(stub.sayHello());
+
+            ITranslate stub = (ITranslate) myR.lookup("Translate");
+            if (stub == null) {
+                System.err.println("stub null");
+                System.exit(1);
+            }
+            System.out.println(stub.getTranslation("monk"));
+            System.out.println(stub.getTranslation("legacy"));
+            stub.addTranslation("monkey", "singe");
+            stub.addTranslation("monk", "religieux");
+            System.out.println(stub.getTranslation("monkey"));
+            System.out.println(stub.getTranslation("monk"));
 
 
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
