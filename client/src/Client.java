@@ -1,3 +1,5 @@
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -21,15 +23,23 @@ public class Client extends UnicastRemoteObject {
             }
 
             IRegistry myR = (IRegistry) Naming.lookup("rmi://localhost:1098/my_registry");
-
-            //IHello stub = (IHello) myR.lookup("Hello");
-            //System.out.println(stub.sayHello());
-
             ITranslate stub = (ITranslate) myR.lookup("Translate");
             if (stub == null) {
                 System.err.println("stub null");
                 System.exit(1);
             }
+
+            ClientJMS jms = new ClientJMS();
+            jms.configurer();
+            try {
+                jms.configurerConsommateur(stub.subscribe("pierre"));
+            } catch (NamingException | JMSException e) {
+                e.printStackTrace();
+            }
+
+            //IHello stub = (IHello) myR.lookup("Hello");
+            //System.out.println(stub.sayHello());
+
             System.out.println(stub.getTranslation("monk"));
             System.out.println(stub.getTranslation("legacy"));
             stub.addTranslation("monkey", "singe");

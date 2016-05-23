@@ -18,6 +18,7 @@ public class Server {
             Translate service = new Translate();
             myR.bind("Translate", service);
 
+
             System.out.println("Server ready");
         } catch (AlreadyBoundException | RemoteException | NotBoundException | NotSerializableException | MalformedURLException e){
             e.printStackTrace();

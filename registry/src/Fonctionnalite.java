@@ -13,7 +13,7 @@ public class Fonctionnalite {
     //liste de nom d'objet range par ordre d'ajout
     private static List<String> keys = new ArrayList<>();
 
-    public void add(String key, Serializable obj) throws AlreadyBoundException {
+    synchronized public void add(String key, Serializable obj) throws AlreadyBoundException {
         if(map.containsKey(key)){
             throw new AlreadyBoundException(key + " existe deja");
         }
@@ -24,7 +24,7 @@ public class Fonctionnalite {
         keys.add(key);
     }
 
-    public void addForce(String key, Serializable obj){
+    synchronized public void addForce(String key, Serializable obj){
         map.put(key, obj);
         if (keys.contains(key)){
             keys.remove(key);
